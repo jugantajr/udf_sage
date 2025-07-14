@@ -7,11 +7,16 @@ def corona_product(G, H):
     m = H.order()
     result.add_vertices(range(n))
     result.add_edges(G.edges())
+    
     for u in G.vertices():
         H_vertices = [n + u * m + v for v in H.vertices()]
         result.add_vertices(H_vertices)
-        for (v1, v2) in H.edges():
+        
+        # Handle edges - unpack only the first two elements (vertices)
+        for edge in H.edges():
+            v1, v2 = edge[0], edge[1]
             result.add_edge(n + u * m + v1, n + u * m + v2)
+        
         for v in H.vertices():
             result.add_edge(u, n + u * m + v)
     
